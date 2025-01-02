@@ -17,14 +17,19 @@ java {
 repositories {
     mavenCentral()
 }
-
+val logbackVersion: String by project
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("io.ktor:ktor-client-core:2.3.4")
+    implementation("org.reactivestreams:reactive-streams:1.0.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.7.3")
+    implementation("io.projectreactor:reactor-core:3.5.9")
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("io.ktor:ktor-client-cio:2.3.4") // CIO is an engine for Ktor
     implementation("io.ktor:ktor-client-content-negotiation:2.3.4")
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.4")
+    implementation("ch.qos.logback:logback-classic:1.5.6")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
