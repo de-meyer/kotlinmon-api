@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "1.9.25"
+    kotlin("plugin.serialization") version "1.9.0"
     kotlin("plugin.spring") version "1.9.25"
     id("org.springframework.boot") version "3.4.1"
     id("io.spring.dependency-management") version "1.1.7"
@@ -24,6 +25,7 @@ dependencies {
     implementation("io.ktor:ktor-client-core:2.3.4")
     implementation("org.reactivestreams:reactive-streams:1.0.4")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
     implementation("io.projectreactor:reactor-core:3.5.9")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("io.ktor:ktor-client-cio:2.3.4") // CIO is an engine for Ktor
