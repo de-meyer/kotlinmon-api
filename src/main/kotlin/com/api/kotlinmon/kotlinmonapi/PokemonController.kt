@@ -12,24 +12,22 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api")
 class PokemonController {
-    val pokeApiClientConfig = PokeApiClientConfig()
+    final val config = PokeApiClientConfig(
+        rootUrl = "https://pokeapi.co/api/v2",
+        requestTimeout = 10000L
+    )
 
+    val client = config.httpClient
+    val baseUrl = config.rootUrl
     @GetMapping("/pokemon/{name}")
     suspend fun getPokemon(@PathVariable name: String) {
-        val baseUrl = pokeApiClientConfig.rootUrl
-        val client = pokeApiClientConfig.httpClient
         val response: Pokemon = client.get("$baseUrl/pokemon/$name").body()
         println(response)
-        client.close() // TODO: Close client properly
     }
 
     @GetMapping("/ability/{name}")
     suspend fun getAbility(@PathVariable name: String) {
-        val pokeApiClientConfig = PokeApiClientConfig()
-        val baseUrl = pokeApiClientConfig.rootUrl
-        val client = pokeApiClientConfig.httpClient
         val response: Ability = client.get("$baseUrl/ability/$name").body()
         println(response)
-        client.close() // TODO: Close client properly
     }
 }

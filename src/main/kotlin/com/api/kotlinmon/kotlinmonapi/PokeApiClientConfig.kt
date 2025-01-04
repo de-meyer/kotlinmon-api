@@ -7,18 +7,28 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
+import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.stereotype.Component
 
+@Component
+@ConfigurationProperties(prefix = "pokeapi")
 class PokeApiClientConfig(
-    val rootUrl: String = "https://pokeapi.co/api/v2",
-    val httpClient: HttpClient = HttpClient(CIO) {
-        install(ContentNegotiation) {
-            json(Json { ignoreUnknownKeys = true }) // Configure JSON handling
-        }
-        engine {
-            requestTimeout = 5000
-        }
-        expectSuccess = true
+    var rootUrl: String = "https://example.com/api",
+    var requestTimeout: Long = 10000L,
+    var ignoreUnknownKeys: Boolean = true,
+) {
 
+    // Lazily initialized HttpClient
+    val httpClient: HttpClient by lazy {
+        HttpClient(CIO) {
+            install(ContentNegotiation) {
+                json(Json { this.ignoreUnknownKeys = this@PokeApiClientConfig.ignoreUnknownKeys })
+            }
+            engine {
+                this.requestTimeout = this@PokeApiClientConfig.requestTimeout
+            }
+            expectSuccess = true
+        }
     }
-)
+}
 
