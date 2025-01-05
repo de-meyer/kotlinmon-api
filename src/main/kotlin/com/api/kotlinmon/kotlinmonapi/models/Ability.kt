@@ -1,4 +1,4 @@
-package com.api.kotlinmon.kotlinmonapi.model
+package com.api.kotlinmon.kotlinmonapi.models
 
 import kotlinx.serialization.Serializable
 

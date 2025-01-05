@@ -20,6 +20,8 @@ repositories {
 }
 val logbackVersion: String by project
 dependencies {
+    compileOnly("jakarta.servlet:jakarta.servlet-api:5.0.0")
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("io.ktor:ktor-client-core:2.3.4")
@@ -34,7 +36,6 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.5.6")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    developmentOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
