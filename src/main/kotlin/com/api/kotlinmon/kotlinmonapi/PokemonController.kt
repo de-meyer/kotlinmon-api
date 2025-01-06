@@ -21,10 +21,10 @@ class PokemonController {
 
     private val client = config.httpClient
     private val baseUrl = config.rootUrl
+
     @GetMapping("/pokemon/{name}")
     suspend fun getPokemon(@PathVariable name: String) {
         try {
-
             val response: Pokemon = client.get("$baseUrl/pokemon/$name").body()
             println(response)
         } catch (ex: Exception) {
@@ -35,17 +35,18 @@ class PokemonController {
             }
         }
     }
+
     @GetMapping("/ability/{name}")
     suspend fun getAbility(@PathVariable name: String) {
         try {
             val response: Ability = client.get("$baseUrl/ability/$name").body()
             println(response)
         } catch (ex: Exception) {
-        if (ex is ClientRequestException && ex.response.status.value == 404) {
-            throw ResourceNotFoundException("Ability not found with name/id: $name")
-        } else {
-            throw ex
+            if (ex is ClientRequestException && ex.response.status.value == 404) {
+                throw ResourceNotFoundException("Ability not found with name/id: $name")
+            } else {
+                throw ex
+            }
         }
-    }
     }
 }
