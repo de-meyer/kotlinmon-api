@@ -25,7 +25,7 @@ class GlobalExceptionHandler {
         return ResponseEntity(body, HttpStatus.NOT_FOUND)
     }
 
-    @ExceptionHandler(Exception::class)
+    /*@ExceptionHandler(Exception::class)
     fun handleGenericException(ex: Exception): ResponseEntity<ErrorResponse> {
         val errorResponse = ErrorResponse(
             status =  HttpStatus.INTERNAL_SERVER_ERROR.value(),
@@ -34,6 +34,8 @@ class GlobalExceptionHandler {
         )
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse)
     }
+
+     */
 
 
 }
