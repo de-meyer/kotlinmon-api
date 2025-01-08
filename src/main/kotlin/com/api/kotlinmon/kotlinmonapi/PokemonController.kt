@@ -3,6 +3,9 @@ package com.api.kotlinmon.kotlinmonapi
 import com.api.kotlinmon.kotlinmonapi.exceptions.ResourceNotFoundException
 import com.api.kotlinmon.kotlinmonapi.models.Ability
 import com.api.kotlinmon.kotlinmonapi.models.Pokemon
+import io.github.resilience4j.kotlin.circuitbreaker.executeSuspendFunction
+import io.github.resilience4j.kotlin.ratelimiter.executeSuspendFunction
+import io.github.resilience4j.kotlin.retry.executeSuspendFunction
 import io.ktor.client.call.*
 import io.ktor.client.plugins.*
 import io.ktor.client.request.*
@@ -21,12 +24,19 @@ class PokemonController {
 
     private val client = config.httpClient
     private val baseUrl = config.rootUrl
-
+    private val rateLimiter = config.rateLimiter
+    private val circuitBreaker = config.circuitBreaker
+    private val retry = config.retry
     @GetMapping("/pokemon/{name}")
     suspend fun getPokemon(@PathVariable name: String) {
         try {
-            val response: Pokemon = client.get("$baseUrl/pokemon/$name").body()
-            println(response)
+            retry.executeSuspendFunction {
+                circuitBreaker.executeSuspendFunction {
+                    rateLimiter.executeSuspendFunction {
+                        client.get("$baseUrl/pokemon/$name").body<Pokemon>()
+                    }
+                }
+            }
         } catch (ex: Exception) {
             if (ex is ClientRequestException && ex.response.status.value == 404) {
                 throw ResourceNotFoundException("Pokemon not found with name/id: $name")
