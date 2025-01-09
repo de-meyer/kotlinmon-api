@@ -37,7 +37,7 @@ class PokemonController {
                     }
                 }
             }
-        } catch (ex: Exception) {
+        }catch (ex: Exception) {
             if (ex is ClientRequestException && ex.response.status.value == 404) {
                 throw ResourceNotFoundException("Pokemon not found with name/id: $name")
             } else {
