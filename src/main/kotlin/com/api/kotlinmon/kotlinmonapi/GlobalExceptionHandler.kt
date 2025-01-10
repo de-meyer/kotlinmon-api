@@ -1,6 +1,7 @@
 package com.api.kotlinmon.kotlinmonapi
 
 import com.api.kotlinmon.kotlinmonapi.exceptions.ResourceNotFoundException
+import io.github.resilience4j.ratelimiter.RequestNotPermitted
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -25,7 +26,17 @@ class GlobalExceptionHandler {
         return ResponseEntity(body, HttpStatus.NOT_FOUND)
     }
 
-    /*@ExceptionHandler(Exception::class)
+    @ExceptionHandler(RequestNotPermitted::class)
+    fun handleRateLimitExceededException(ex: RequestNotPermitted): ResponseEntity<ErrorResponse> {
+        val errorResponse = ErrorResponse(
+            status = HttpStatus.TOO_MANY_REQUESTS.value(),
+            message = "Too many requests. Please try again later.",
+            timestamp = System.currentTimeMillis()
+        )
+        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(errorResponse)
+    }
+
+    @ExceptionHandler(Exception::class)
     fun handleGenericException(ex: Exception): ResponseEntity<ErrorResponse> {
         val errorResponse = ErrorResponse(
             status =  HttpStatus.INTERNAL_SERVER_ERROR.value(),
@@ -34,10 +45,6 @@ class GlobalExceptionHandler {
         )
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse)
     }
-
-     */
-
-
 }
 
 data class ErrorResponse(
