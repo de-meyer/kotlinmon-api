@@ -18,26 +18,26 @@ java {
 repositories {
     mavenCentral()
 }
-val logbackVersion: String by project
+
 dependencies {
-    compileOnly("jakarta.servlet:jakarta.servlet-api:5.0.0")
+    compileOnly("jakarta.servlet:jakarta.servlet-api:${property("jakartaVersion")}")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("io.github.resilience4j:resilience4j-kotlin:2.0.2")
-    implementation("io.github.resilience4j:resilience4j-ratelimiter:2.0.2")
-    implementation("io.github.resilience4j:resilience4j-retry:2.0.2")
-    implementation("io.github.resilience4j:resilience4j-circuitbreaker:2.0.2")
+    implementation("io.github.resilience4j:resilience4j-kotlin:${property("resilience4jVersion")}")
+    implementation("io.github.resilience4j:resilience4j-ratelimiter:${property("resilience4jVersion")}")
+    implementation("io.github.resilience4j:resilience4j-retry:${property("resilience4jVersion")}")
+    implementation("io.github.resilience4j:resilience4j-circuitbreaker:${property("resilience4jVersion")}")
     implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("io.ktor:ktor-client-core:2.3.4")
-    implementation("org.reactivestreams:reactive-streams:1.0.4")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.7.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
-    implementation("io.projectreactor:reactor-core:3.5.9")
+    implementation("io.ktor:ktor-client-core:${property("ktorClientVersion")}")
+    implementation("io.ktor:ktor-client-cio:${property("ktorClientVersion")}") // CIO is an engine for Ktor
+    implementation("io.ktor:ktor-client-content-negotiation:${property("ktorClientVersion")}")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:${property("ktorClientVersion")}")
+    implementation("org.reactivestreams:reactive-streams:${property("reactiveStreamsVersion")}")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:${property("kotlinxCoroutinesVersion")}")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${property("kotlinxSerializationVersion")}")
+    implementation("io.projectreactor:reactor-core:${property("reactorCoreVersion")}")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
-    implementation("io.ktor:ktor-client-cio:2.3.4") // CIO is an engine for Ktor
-    implementation("io.ktor:ktor-client-content-negotiation:2.3.4")
-    implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.4")
-    implementation("ch.qos.logback:logback-classic:1.5.6")
+    implementation("ch.qos.logback:logback-classic:${property("logbackVersion")}")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
