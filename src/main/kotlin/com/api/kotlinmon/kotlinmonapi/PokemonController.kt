@@ -28,9 +28,9 @@ class PokemonController {
     private val circuitBreaker = config.circuitBreaker
     private val retry = config.retry
     @GetMapping("/pokemon/{name}")
-    suspend fun getPokemon(@PathVariable name: String) {
+    suspend fun getPokemon(@PathVariable name: String): Pokemon {
         try {
-            retry.executeSuspendFunction {
+           return retry.executeSuspendFunction {
                 circuitBreaker.executeSuspendFunction {
                     rateLimiter.executeSuspendFunction {
                         client.get("$baseUrl/pokemon/$name").body<Pokemon>()
