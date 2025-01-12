@@ -18,4 +18,10 @@ class PokemonControllerTest {
         assertEquals("pikachu", pokemon.name)
     }
 
+    @Test
+    fun shouldReturnPokemonById() = runBlocking {
+        val pokemon: Pokemon = pokemonController.getPokemon("25")
+        assertEquals("pikachu", pokemon.name)
+    }
+
 }
