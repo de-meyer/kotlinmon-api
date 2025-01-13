@@ -47,10 +47,9 @@ class PokemonController {
     }
 
     @GetMapping("/ability/{name}")
-    suspend fun getAbility(@PathVariable name: String) {
+    suspend fun getAbility(@PathVariable name: String): Ability {
         try {
-            val response: Ability = client.get("$baseUrl/ability/$name").body()
-            println(response)
+           return client.get("$baseUrl/ability/$name").body()
         } catch (ex: Exception) {
             if (ex is ClientRequestException && ex.response.status.value == 404) {
                 throw ResourceNotFoundException("Ability not found with name/id: $name")

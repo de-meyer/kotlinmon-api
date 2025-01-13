@@ -27,11 +27,29 @@ class PokemonControllerTest {
     }
 
     @Test
-    fun shouldReturnPokemonByInvalidName() = runBlocking {
+    fun shouldThrowResourceNotFoundExceptionForPokemon() = runBlocking {
         val exception = assertThrows<ResourceNotFoundException> {
             pokemonController.getPokemon("invalid")
         }
         assertEquals("Pokemon not found with name/id: invalid", exception.message)
     }
 
+    @Test
+    fun shouldReturnAbilityByName() = runBlocking {
+        val ability = pokemonController.getAbility("static")
+        assertEquals("static", ability.name)
+    }
+    @Test
+    fun shouldReturnAbilityById() = runBlocking {
+        val ability = pokemonController.getAbility("1")
+        assertEquals("stench", ability.name)
+    }
+
+    @Test
+    fun shouldThrowResourceNotFoundExceptionForAbility() = runBlocking {
+        val exception = assertThrows<ResourceNotFoundException> {
+            pokemonController.getAbility("invalid")
+        }
+        assertEquals("Ability not found with name/id: invalid", exception.message)
+    }
 }
